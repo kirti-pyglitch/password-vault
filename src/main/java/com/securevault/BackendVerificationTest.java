@@ -14,8 +14,6 @@ import com.securevault.ui.components.CustomButton;
 import com.securevault.ui.components.CustomPasswordField;
 import com.securevault.ui.components.CustomTextField;
 import com.securevault.ui.components.Icons;
-import com.securevault.ui.panels.*;
-
 import java.io.File;
 
 /**

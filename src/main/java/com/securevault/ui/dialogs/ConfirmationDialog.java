@@ -1,7 +1,6 @@
 package com.securevault.ui.dialogs;
 
 import com.securevault.ui.AppColors;
-import com.securevault.ui.ThemeManager;
 import com.securevault.ui.Typography;
 import com.securevault.ui.components.CustomButton;
 

@@ -218,6 +218,7 @@ public class LoginPanel extends JPanel {
 
             @Override
             public void keyReleased(KeyEvent e) {
+                
                 if (isRegistrationMode) {
                     String pass = new String(passwordField.getPassword());
                     int s = VaultEncryption.calculatePasswordStrength(pass);

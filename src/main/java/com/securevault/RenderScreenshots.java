@@ -1,8 +1,5 @@
 package com.securevault;
 
-import com.securevault.crypto.VaultEncryption;
-import com.securevault.model.Category;
-import com.securevault.model.Credential;
 import com.securevault.service.VaultService;
 import com.securevault.ui.*;
 import com.securevault.ui.panels.*;
