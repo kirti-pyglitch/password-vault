@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureVault – Human-Centred Java Password Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --jet-black: #111111;
+      --pure-white: #ffffff;
+      --crimson-red: #d93636;
+      --crimson-hover: #b82828;
+      --warm-off-white: #f3f1ed;
+      --slate-grey: #777777;
+      --light-grey: #e8e7e4;
+      --border-subtle: #e0ddd6;
+      --muted-teal: #277c70;
+      --soft-amber: #d89a35;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--warm-off-white);
+      color: var(--jet-black);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Navigation */
+    header {
+      background: var(--jet-black);
+      color: var(--pure-white);
+      border-bottom: 1px solid #222;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--pure-white);
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--crimson-red);
+      font-weight: 800;
+    }
+
+    .brand-text h1 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-text span {
+      font-size: 11px;
+      color: var(--slate-grey);
+      display: block;
+      margin-top: -2px;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--crimson-red);
+      color: var(--pure-white);
+    }
+
+    .btn-primary:hover {
+      background: var(--crimson-hover);
+    }
+
+    .btn-secondary {
+      background: #1e1e1e;
+      color: var(--pure-white);
+      border-color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #2a2a2a;
+    }
+
+    .btn-outline {
+      background: var(--pure-white);
+      color: var(--jet-black);
+      border-color: var(--border-subtle);
+    }
+
+    .btn-outline:hover {
+      background: #eee;
+    }
+
+    /* Hero Section */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 64px 24px 40px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--pure-white);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--jet-black);
+      margin-bottom: 24px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--muted-teal);
+      border-radius: 50%;
+    }
+
+    .hero-title {
+      font-size: 46px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      color: var(--jet-black);
+    }
+
+    .hero-title span {
+      color: var(--crimson-red);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: #4a4a4a;
+      max-width: 720px;
+      margin-bottom: 32px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Interactive Showcase Gallery */
+    .showcase {
+      max-width: 1200px;
+      margin: 20px auto 70px;
+      padding: 0 24px;
+    }
+
+    .gallery-card {
+      background: var(--pure-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .tabs-bar {
+      display: flex;
+      background: #faf9f6;
+      border-bottom: 1px solid var(--border-subtle);
+      overflow-x: auto;
+      padding: 8px 12px 0;
+      gap: 6px;
+    }
+
+    .tab-btn {
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--slate-grey);
+      background: transparent;
+      border: 1px solid transparent;
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--jet-black);
+      background: #f1efe9;
+    }
+
+    .tab-btn.active {
+      color: var(--jet-black);
+      background: var(--pure-white);
+      border-color: var(--border-subtle);
+      border-top: 2px solid var(--crimson-red);
+    }
+
+    .image-stage {
+      padding: 20px;
+      background: #111;
+      text-align: center;
+    }
+
+    .image-stage img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .image-caption {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--pure-white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--slate-grey);
+    }
+
+    .image-caption strong {
+      color: var(--jet-black);
+    }
+
+    /* Feature Grid */
+    .features-section {
+      max-width: 1200px;
+      margin: 0 auto 70px;
+      padding: 0 24px;
+    }
+
+    .section-heading {
+      margin-bottom: 28px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--slate-grey);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--jet-black);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--pure-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 24px;
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--jet-black);
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .feature-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--crimson-red);
+      background: rgba(217, 54, 54, 0.08);
+      padding: 3px 8px;
+      border-radius: 3px;
+      margin-bottom: 12px;
+    }
+
+    /* OOP Section */
+    .oop-card {
+      background: var(--pure-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 32px;
+      margin-bottom: 70px;
+    }
+
+    .oop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .oop-item {
+      border-left: 2px solid var(--crimson-red);
+      padding-left: 16px;
+    }
+
+    .oop-item h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--jet-black);
+      margin-bottom: 4px;
+    }
+
+    .oop-item p {
+      font-size: 13px;
+      color: #666;
+    }
+
+    /* Code Terminal Section */
+    .terminal-card {
+      background: var(--jet-black);
+      color: var(--pure-white);
+      border-radius: 6px;
+      padding: 24px;
+      margin-bottom: 70px;
+      border: 1px solid #222;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #222;
+      font-size: 12px;
+      color: var(--slate-grey);
+      font-family: var(--font-mono);
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal-code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.8;
+      color: #eee;
+    }
+
+    .terminal-code .cmd {
+      color: #4ade80;
+    }
+
+    .terminal-code .comment {
+      color: #888;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--jet-black);
+      color: var(--slate-grey);
+      border-top: 1px solid #222;
+      padding: 36px 24px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: var(--pure-white);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 32px; }
+      .hero-subtitle { font-size: 16px; }
+      .nav-container { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .image-caption { flex-direction: column; gap: 8px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="brand">
+        <div class="brand-icon">⬢</div>
+        <div class="brand-text">
+          <h1>SECUREVAULT</h1>
+          <span>ENCRYPTED DESKTOP • JAVA SWING</span>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <a href="https://github.com/kirti-pyglitch/password-vault" target="_blank" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub Repository
+        </a>
+        <a href="dist/SecureVault.jar" download class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download .JAR
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      AES-256-GCM Authenticated Encryption • 100% Client-Side Native Java
+    </div>
+    <h2 class="hero-title">Your passwords.<br><span>Your control.</span></h2>
+    <p class="hero-subtitle">
+      A human-centred Java Swing desktop password manager built with editorial typography, disciplined color hierarchy, and zero third-party dependencies.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="dist/SecureVault.jar" download class="btn btn-primary">Download Executable (.jar)</a>
+      <a href="https://github.com/kirti-pyglitch/password-vault" target="_blank" class="btn btn-outline">Explore Source Code</a>
+    </div>
+  </section>
+
+  <!-- Interactive Screenshot Viewer -->
+  <section class="showcase">
+    <div class="section-heading">
+      <div class="section-label">User Interface Preview</div>
+      <h3 class="section-title">Application Screen Gallery</h3>
+    </div>
+
+    <div class="gallery-card">
+      <div class="tabs-bar">
+        <button class="tab-btn active" onclick="switchTab('dashboard', this)">Dashboard</button>
+        <button class="tab-btn" onclick="switchTab('vault', this)">My Vault</button>
+        <button class="tab-btn" onclick="switchTab('generator', this)">Password Generator</button>
+        <button class="tab-btn" onclick="switchTab('audit', this)">Security Audit</button>
+        <button class="tab-btn" onclick="switchTab('settings', this)">Settings & Security</button>
+        <button class="tab-btn" onclick="switchTab('login', this)">Split Login Screen</button>
+      </div>
+
+      <div class="image-stage">
+        <img id="active-image" src="screenshot_dashboard.png" alt="SecureVault Dashboard">
+      </div>
+
+      <div class="image-caption">
+        <span id="caption-title"><strong>Dashboard:</strong> Asymmetrical layout with circular security gauge, compact metrics, and recently updated accounts.</span>
+        <span style="font-family: var(--font-mono); font-size: 11px;">Resolution: 1220 × 800 px</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="features-section">
+    <div class="section-heading">
+      <div class="section-label">Core Capabilities</div>
+      <h3 class="section-title">Engineered for Real-World Cybersecurity</h3>
+    </div>
+
+    <div class="grid-3">
+      <div class="feature-card">
+        <span class="feature-tag">javax.crypto.Cipher</span>
+        <h3>AES-256-GCM Encryption</h3>
+        <p>Uses authenticated encryption (AES/GCM/NoPadding) with 128-bit authentication tags and 12-byte random IVs to ensure confidentiality and tamper resistance.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-tag">PBKDF2WithHmacSHA256</span>
+        <h3>Hardened Key Derivation</h3>
+        <p>Master passwords undergo 65,536 iterations of PBKDF2 with unique 16-byte cryptographic salts to protect against offline brute-force and dictionary attacks.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-tag">Atomic File I/O</span>
+        <h3>Zero Data Loss Storage</h3>
+        <p>Credentials serialize to an encrypted binary database (<code>securevault.dat</code>) via atomic temporary file swapping, eliminating corruptions on unexpected shutdown.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-tag">java.awt.Graphics2D</span>
+        <h3>Procedural Vector Icons</h3>
+        <p>Renders custom vector icons at any DPI scaling without external image files, keeping the standalone JAR lightweight (~138 KB).</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-tag">Entropy Engine</span>
+        <h3>Real-Time Security Audit</h3>
+        <p>Scans the repository for weak passwords, reused keys across services, and stale accounts (>90 days), with one-click direct update workflows.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-tag">Zero Cloud / Offline</span>
+        <h3>Zero-Knowledge Privacy</h3>
+        <p>No telemetry, no external HTTP calls, no cloud tracking. Master keys and decrypted entries reside exclusively in temporary RAM.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- OOP Architecture Section for Academic Submissions -->
+  <section class="features-section">
+    <div class="oop-card">
+      <div class="section-label">Object-Oriented Architecture (OOPJ)</div>
+      <h3 class="section-title">Design Principles & Patterns Applied</h3>
+      <div class="oop-grid">
+        <div class="oop-item">
+          <h4>1. Encapsulation</h4>
+          <p>Sensitive master passphrases, IVs, and decrypted records are tightly encapsulated within <code>DatabaseManager</code> and zeroed out on vault lock.</p>
+        </div>
+        <div class="oop-item">
+          <h4>2. Inheritance & Polymorphism</h4>
+          <p>Custom UI components extend Swing primitives (<code>ScrollablePanel</code>, <code>CustomButton</code>, <code>CustomTextField</code>) with specialized rendering.</p>
+        </div>
+        <div class="oop-item">
+          <h4>3. Abstraction</h4>
+          <p>High-level UI panels communicate exclusively via <code>VaultService</code> and <code>AuditReport</code>, completely decoupling business logic from crypto.</p>
+        </div>
+        <div class="oop-item">
+          <h4>4. Observer Pattern</h4>
+          <p>Data change listeners ensure instant synchronization between My Vault, Dashboard metrics, and Security Audit scans.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Terminal Instructions -->
+  <section class="features-section">
+    <div class="terminal-card">
+      <div class="terminal-header">
+        <span class="terminal-dot" style="background:#ff5f56;"></span>
+        <span class="terminal-dot" style="background:#ffbd2e;"></span>
+        <span class="terminal-dot" style="background:#27c93f;"></span>
+        <span style="margin-left: 8px;">bash • local execution commands</span>
+      </div>
+      <div class="terminal-code">
+        <span class="comment"># Clone the repository</span><br>
+        <span class="cmd">git clone https://github.com/kirti-pyglitch/password-vault.git</span><br>
+        <span class="cmd">cd password-vault</span><br><br>
+        <span class="comment"># Launch directly with the auto-detect run script</span><br>
+        <span class="cmd">./run.sh</span><br><br>
+        <span class="comment"># Or run the standalone executable JAR</span><br>
+        <span class="cmd">java -jar dist/SecureVault.jar</span><br><br>
+        <span class="comment"># Default demonstration master password:</span><br>
+        <span style="color:#d93636; font-weight:700;">MasterPassword2026!</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>SecureVault • Built with Java Swing &amp; Cryptography • <a href="https://github.com/kirti-pyglitch/password-vault" target="_blank">View on GitHub</a></p>
+  </footer>
+
+  <script>
+    const captions = {
+      dashboard: "<strong>Dashboard:</strong> Asymmetrical layout with circular security gauge, compact metrics, and recently updated accounts.",
+      vault: "<strong>My Vault:</strong> Clean table/list view with filter pills (All, Logins, Finance, Cloud, Dev Keys), instant search, and copy/edit/delete actions.",
+      generator: "<strong>Password Generator:</strong> Visual focus centered on a Jet Black display with Crimson Red copy action, character slider, and entropy calculation.",
+      audit: "<strong>Security Audit:</strong> Identifies weak, reused, and stale credentials with clear color coding and direct update shortcuts.",
+      settings: "<strong>Settings & Security:</strong> Master password re-encryption/rotation, auto-lock timeout policies, and data export.",
+      login: "<strong>Split Login Screen:</strong> Editorial branding and geometric security art on the left, clean unlock form on the right."
+    };
+
+    function switchTab(screenName, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const img = document.getElementById('active-image');
+      img.src = `screenshot_${screenName}.png`;
+      img.alt = `SecureVault ${screenName}`;
+
+      document.getElementById('caption-title').innerHTML = captions[screenName] || '';
+    }
+  </script>
+</body>
+</html>
